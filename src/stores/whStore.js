@@ -71,10 +71,10 @@ class WormholeStore {
 
 decorate(WormholeStore, {
   getFsm: computed,
-  whState: observable,
   baseMass: observable,
   minMass: observable,
   maxMass: observable,
+  shipmass: observable,
   reduce: action,
   shipPass: action,
   disrupte: action,
