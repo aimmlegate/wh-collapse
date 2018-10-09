@@ -4,7 +4,7 @@ import { flowRight as compose } from "lodash";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 
-const normalise = value => ((value - 0) * 100) / (1100000 - 0);
+const normalise = value => ((value - 0) * 100) / (2200000 - 0);
 
 const WhProgress = ({
   whStore: { baseMass, maxMass, minMass },

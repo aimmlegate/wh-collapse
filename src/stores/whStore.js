@@ -2,7 +2,7 @@ import { observable, action, computed, decorate } from "mobx";
 import { getProcent } from "../utils";
 import whFSM from "./whFSM";
 
-const WH_MASS = 1000000;
+const WH_MASS = 2000000;
 const DEVIATION = 10;
 const devMargin = getProcent(DEVIATION, WH_MASS);
 
@@ -67,7 +67,7 @@ export class NewWormholeStore extends WormholeStore {
       if (this.is("fresh") && this.maxMass < this.getGues("max", 50)) {
         this.reduce();
       }
-      if (this.is("destab") && this.maxMass <= this.getGues("max", 10)) {
+      if (this.is("destab") && this.maxMass < this.getGues("max", 10)) {
         this.disrupte();
       }
       if (this.is("verge") && this.maxMass < 0) {
