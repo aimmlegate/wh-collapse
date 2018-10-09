@@ -7,7 +7,8 @@ import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 
 const AppData = ({
-  whStore: { baseMass, maxMass, minMass, shipmass, state }
+  whStore: { baseMass, maxMass, minMass },
+  shipStore: { shipMass }
 }) => {
   return (
     <List>
@@ -24,17 +25,13 @@ const AppData = ({
       </ListItem>
       <Divider />
       <ListItem>
-        <ListItemText primary="Ship mass" secondary={shipmass} />
-      </ListItem>
-      <Divider />
-      <ListItem>
-        <ListItemText primary="State" secondary={state} />
+        <ListItemText primary="Ship mass" secondary={shipMass} />
       </ListItem>
     </List>
   );
 };
 
 export default compose(
-  inject("whStore"),
+  inject("whStore", "shipStore"),
   observer
 )(AppData);

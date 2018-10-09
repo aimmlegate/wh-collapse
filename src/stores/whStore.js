@@ -2,20 +2,20 @@ import { observable, action, computed, decorate } from "mobx";
 import { getProcent } from "../utils";
 import whFSM from "./whFSM";
 
-const WH_MASS = 2000;
+const WH_MASS = 1000000;
 const DEVIATION = 10;
 const devMargin = getProcent(DEVIATION, WH_MASS);
 
 class WormholeStore extends whFSM {
   startMass = WH_MASS;
 
-  shipmass = 100;
-
   maxMass = WH_MASS + devMargin;
 
   baseMass = WH_MASS;
 
   minMass = WH_MASS - devMargin;
+
+  lastJumpMass = 0;
 
   get state() {
     return this._state;
@@ -27,8 +27,10 @@ class WormholeStore extends whFSM {
         return getProcent(prc, this.startMass - devMargin);
       case "max":
         return getProcent(prc, this.startMass + devMargin);
+      case "base":
+        return getProcent(prc, this.startMass);
       default:
-        return 0;
+        return getProcent(prc, this.startMass);
     }
   }
 
@@ -36,6 +38,42 @@ class WormholeStore extends whFSM {
     this.baseMass = this.baseMass - mass;
     this.maxMass = this.maxMass - mass;
     this.minMass = this.minMass - mass;
+    this.lastJumpMass = mass;
+  }
+}
+
+decorate(WormholeStore, {
+  baseMass: observable,
+  minMass: observable,
+  maxMass: observable,
+  shipmass: observable,
+  lastJumpMass: observable,
+  state: computed,
+  shipPass: action
+});
+
+export class NewWormholeStore extends WormholeStore {
+  shipJump(shipmass) {
+    if (!this.is("close")) {
+      this.shipPass(shipmass);
+
+      if (this.is("fresh") && this.minMass > this.getGues("min", 50)) {
+        this.minMass = this.getGues("min", 50);
+      }
+      if (this.is("destab") && this.minMass > this.getGues("min", 50)) {
+        this.minMass = this.getGues("min", 50) + 1;
+      }
+
+      if (this.is("fresh") && this.maxMass < this.getGues("max", 50)) {
+        this.reduce();
+      }
+      if (this.is("destab") && this.maxMass <= this.getGues("max", 10)) {
+        this.disrupte();
+      }
+      if (this.is("verge") && this.maxMass < 0) {
+        this.collapse();
+      }
+    }
   }
 
   reduce() {
@@ -45,8 +83,9 @@ class WormholeStore extends whFSM {
       console.error(err);
       return;
     }
-    this.maxMass = this.getGues("max", 50);
-    this.minMass = this.getGues("min", 50) - this.shipmass + 1;
+    if (this.maxMass > this.getGues("max", 50)) {
+      this.maxMass = this.getGues("max", 50) - 1;
+    }
   }
 
   disrupte() {
@@ -56,10 +95,8 @@ class WormholeStore extends whFSM {
       console.error(err);
       return;
     }
-    this.maxMass = this.getGues("max", 50);
-    this.minMass = this.getGues("min", 50) - this.shipmass + 1;
-    if (this.maxMass > this.getGues("max", 10)) {
-      this.maxMass = this.getGues("max", 10) - 1;
+    if (this.maxMass > this.getGues("max", 50)) {
+      this.maxMass = this.getGues("max", 50);
     }
   }
 
@@ -76,38 +113,9 @@ class WormholeStore extends whFSM {
   }
 }
 
-decorate(WormholeStore, {
-  baseMass: observable,
-  minMass: observable,
-  maxMass: observable,
-  shipmass: observable,
-  state: computed,
-  reduce: action,
-  shipPass: action,
+decorate(NewWormholeStore, {
+  shipJump: action,
   disrupte: action,
-  collapse: action
-});
-
-export class OldWormholeStore extends WormholeStore {
-  shipJump(mass) {
-    if (!this.is("close")) {
-      this.shipPass(mass);
-      if (this.is("destab") && this.minMass < this.getGues("min", 10)) {
-        this.minMass = this.getGues("min", 10);
-      }
-      if (this.is("fresh") && this.maxMass < this.getGues("max", 50)) {
-        this.reduce();
-      }
-      if (this.is("destab") && this.maxMass <= this.getGues("max", 10)) {
-        this.disrupte();
-      }
-      if (this.is("verge") && this.maxMass < 0) {
-        this.collapse();
-      }
-    }
-  }
-}
-
-decorate(OldWormholeStore, {
-  shipJump: action
+  collapse: action,
+  reduce: action
 });

@@ -3,12 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./components/App";
 import { Provider } from "mobx-react";
 import "./assets/index.css";
-import { OldWormholeStore } from "./stores/whStore";
+import { NewWormholeStore } from "./stores/whStore";
+import { ShipStore } from "./stores/shipStore";
 
-const whstore = new OldWormholeStore();
-console.log(whstore);
+const whstore = new NewWormholeStore();
+const shipstore = new ShipStore();
+
 ReactDOM.render(
-  <Provider whStore={whstore}>
+  <Provider whStore={whstore} shipStore={shipstore}>
     <App />
   </Provider>,
   document.getElementById("root")

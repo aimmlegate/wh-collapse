@@ -1,12 +1,12 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
 import AppBar from "./AppBar";
 import WhStatus from "./WhStatus";
 import AppData from "./AppData";
 import WhProgress from "./WhProgress";
+import JumpControl from "./JumpControl";
 
 const App = ({ whStore }) => {
   return (
@@ -16,14 +16,15 @@ const App = ({ whStore }) => {
         <Grid container spacing={16}>
           <Grid item md={12}>
             <WhStatus />
-            <WhProgress />
           </Grid>
           <Grid item md={6}>
-            <Button onClick={() => whStore.shipJump(100)}>Jump</Button>
-            <Button onClick={() => whStore.reduce()}>reduce</Button>
+            <JumpControl />
           </Grid>
           <Grid item md={6}>
             <AppData />
+          </Grid>
+          <Grid item md={12}>
+            <WhProgress />
           </Grid>
         </Grid>
       </div>
