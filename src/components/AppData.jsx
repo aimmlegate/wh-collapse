@@ -7,7 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 
 const AppData = ({
-  whStore: { baseMass, maxMass, minMass, shipmass, getFsm }
+  whStore: { baseMass, maxMass, minMass, shipmass, state }
 }) => {
   return (
     <List>
@@ -28,7 +28,7 @@ const AppData = ({
       </ListItem>
       <Divider />
       <ListItem>
-        <ListItemText primary="State" secondary={getFsm.state} />
+        <ListItemText primary="State" secondary={state} />
       </ListItem>
     </List>
   );

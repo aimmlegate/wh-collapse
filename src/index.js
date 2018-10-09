@@ -7,7 +7,6 @@ import { OldWormholeStore } from "./stores/whStore";
 
 const whstore = new OldWormholeStore();
 console.log(whstore);
-
 ReactDOM.render(
   <Provider whStore={whstore}>
     <App />

@@ -9,18 +9,18 @@ import AppData from "./AppData";
 import WhProgress from "./WhProgress";
 
 const App = ({ whStore }) => {
-  const { getFsm } = whStore;
   return (
     <>
       <AppBar />
       <div style={{ padding: 20, maxWidth: "1200px", margin: "0 auto" }}>
         <Grid container spacing={16}>
           <Grid item md={12}>
-            <WhStatus whStatus={getFsm.state} />
+            <WhStatus />
             <WhProgress />
           </Grid>
           <Grid item md={6}>
             <Button onClick={() => whStore.shipJump(100)}>Jump</Button>
+            <Button onClick={() => whStore.reduce()}>reduce</Button>
           </Grid>
           <Grid item md={6}>
             <AppData />

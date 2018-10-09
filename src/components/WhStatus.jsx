@@ -6,9 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
 
-const WhStatus = ({
-  whStore: { baseMass, maxMass, minMass, shipmass, getFsm }
-}) => {
+const WhStatus = ({ whStore }) => {
   const stepMap = {
     fresh: 0,
     destab: 1,
@@ -16,7 +14,7 @@ const WhStatus = ({
     close: 3
   };
   return (
-    <Stepper alternativeLabel activeStep={stepMap[getFsm.state]}>
+    <Stepper alternativeLabel activeStep={stepMap[whStore.state]}>
       <Step>
         <StepLabel
           optional={
