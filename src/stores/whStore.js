@@ -1,16 +1,12 @@
-import { observable, action, computed, decorate, extendObservable } from "mobx";
-import { factory as StateMachineFactory } from "javascript-state-machine";
+import { observable, action, computed, decorate } from "mobx";
 import { getProcent } from "../utils";
+import whFSM from "./whFSM";
 
 const WH_MASS = 2000;
 const DEVIATION = 10;
 const devMargin = getProcent(DEVIATION, WH_MASS);
 
-class WormholeStore {
-  constructor() {
-    this._fsm();
-  }
-
+class WormholeStore extends whFSM {
   startMass = WH_MASS;
 
   shipmass = 100;
@@ -20,6 +16,10 @@ class WormholeStore {
   baseMass = WH_MASS;
 
   minMass = WH_MASS - devMargin;
+
+  get state() {
+    return this._state;
+  }
 
   getGues(key, prc) {
     switch (key) {
@@ -39,23 +39,40 @@ class WormholeStore {
   }
 
   reduce() {
-    this.reduce();
-    //this.maxMass = this.getGues("max", 50);
-    //this.minMass = this.getGues("min", 50) - shipmass + 1;
+    try {
+      this._reduce();
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    this.maxMass = this.getGues("max", 50);
+    this.minMass = this.getGues("min", 50) - this.shipmass + 1;
   }
 
   disrupte() {
-    this.disrupte();
-    //if (this.maxMass > this.getGues("max", 10)) {
-    //  this.maxMass = this.getGues("max", 10) - 1;
-    //}
+    try {
+      this._disrupte();
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    this.maxMass = this.getGues("max", 50);
+    this.minMass = this.getGues("min", 50) - this.shipmass + 1;
+    if (this.maxMass > this.getGues("max", 10)) {
+      this.maxMass = this.getGues("max", 10) - 1;
+    }
   }
 
   collapse() {
-    this.collapse();
-    //this.maxMass = 0;
-    //this.minMass = 0;
-    //this.baseMass = 0;
+    try {
+      this._collapse();
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    this.maxMass = 0;
+    this.minMass = 0;
+    this.baseMass = 0;
   }
 }
 
@@ -64,20 +81,11 @@ decorate(WormholeStore, {
   minMass: observable,
   maxMass: observable,
   shipmass: observable,
+  state: computed,
   reduce: action,
   shipPass: action,
   disrupte: action,
-  collapse: action,
-  _fsm: observable
-});
-
-StateMachineFactory(WormholeStore, {
-  init: "fresh",
-  transitions: [
-    { name: "reduce", from: "fresh", to: "destab" },
-    { name: "disrupte", from: "destab", to: "verge" },
-    { name: "collapse", from: "verge", to: "close" }
-  ]
+  collapse: action
 });
 
 export class OldWormholeStore extends WormholeStore {

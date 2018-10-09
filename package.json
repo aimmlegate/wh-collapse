@@ -18,8 +18,7 @@
     "eslint": "^5.5.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-prettier": "^2.6.2",
-    "eslint-plugin-react": "^7.11.1",
-    "javascript-state-machine": "^3.1.0"
+    "eslint-plugin-react": "^7.11.1"
   },
   "scripts": {
     "start": "react-scripts start",
