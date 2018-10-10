@@ -46,6 +46,7 @@ const WhProgress = ({
           unit="%"
           domain={[0, 100]}
           allowDataOverflow={true}
+          ticks={[10, 50]}
         />
         <YAxis dataKey="name" type="category" />
         <Legend />
