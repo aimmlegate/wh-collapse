@@ -6,9 +6,10 @@ import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
+import Typography from "@material-ui/core/Typography";
+import { FilterTiltShift, Adjust, PlayForWork } from "@material-ui/icons/";
 const JumpControl = ({ whStore, shipStore }) => {
-  const { state } = whStore;
+  const { state, jumpLock, minMass, maxMass } = whStore;
   const { shipMass, mwdStatus } = shipStore;
   const critMapName = {
     fresh: "Stability Reduced (50%)",
@@ -21,18 +22,40 @@ const JumpControl = ({ whStore, shipStore }) => {
     destab: () => whStore.disrupte(),
     verge: () => whStore.collapse()
   };
+  const closeProbability = Math.abs(
+    minMass < shipMass
+      ? (100 * (shipMass - minMass)) /
+        (shipMass - minMass + (maxMass - shipMass))
+      : 0
+  );
+  const formatProbability = val => (val > 100 ? 100 : Math.round(val, 10));
+
+  const renderProbability = () => {
+    if (state === "verge") {
+      return (
+        <Typography>{`Collapse probability ${formatProbability(
+          closeProbability
+        )} %`}</Typography>
+      );
+    }
+    return null;
+  };
+
   return (
     <div style={{ padding: 20 }}>
       <Grid container spacing={16}>
         <Grid item xs={12}>
-          <FormGroup row>
+          <FormGroup row style={{ marginBottom: "20px" }}>
             <FormControlLabel
               control={
                 <Button
-                  variant="contained"
+                  variant="extendedFab"
                   color="primary"
+                  size="large"
+                  disabled={jumpLock}
                   onClick={() => whStore.shipJump(shipMass)}
                 >
+                  <PlayForWork />
                   Jump
                 </Button>
               }
@@ -42,27 +65,50 @@ const JumpControl = ({ whStore, shipStore }) => {
                 <Switch
                   color="primary"
                   checked={mwdStatus}
+                  disabled={jumpLock}
                   onChange={() => shipStore.mwdTrigger()}
                 />
               }
               label="MWD "
             />
           </FormGroup>
-        </Grid>
-        <Grid item xs={12}>
-          <FormGroup row>
+          <FormGroup col style={{ marginBottom: "20px" }}>
             <FormControlLabel
+              style={{ marginBottom: "10px" }}
               control={
                 <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={critMapFn[state]}
+                  variant="fab"
+                  mini
+                  color="primary"
+                  aria-label="Add"
+                  disabled={!jumpLock}
+                  style={{ marginRight: "10px" }}
+                  onClick={() => whStore.completeJump()}
                 >
-                  {critMapName[state]}
+                  <Adjust />
                 </Button>
               }
+              label="Wormhole not changed"
+            />
+            <FormControlLabel
+              style={{ marginBottom: "10px" }}
+              control={
+                <Button
+                  variant="fab"
+                  mini
+                  color="secondary"
+                  aria-label="Add"
+                  disabled={!jumpLock}
+                  style={{ marginRight: "10px" }}
+                  onClick={critMapFn[state]}
+                >
+                  <FilterTiltShift />
+                </Button>
+              }
+              label={critMapName[state]}
             />
           </FormGroup>
+          {renderProbability()}
         </Grid>
       </Grid>
     </div>

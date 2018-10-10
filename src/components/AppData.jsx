@@ -7,14 +7,11 @@ import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 
 const AppData = ({
-  whStore: { baseMass, maxMass, minMass },
+  whStore: { maxMass, minMass },
   shipStore: { shipMass }
 }) => {
   return (
     <List>
-      <ListItem>
-        <ListItemText primary="Base WH mass" secondary={baseMass} />
-      </ListItem>
       <Divider />
       <ListItem>
         <ListItemText primary="Max WH mass" secondary={maxMass} />

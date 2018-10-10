@@ -11,11 +11,13 @@ class WormholeStore extends whFSM {
 
   maxMass = WH_MASS + devMargin;
 
-  baseMass = WH_MASS;
-
   minMass = WH_MASS - devMargin;
 
-  lastJumpMass = 0;
+  jumpLock = false;
+
+  get absMax() {
+    return this.startMass + devMargin;
+  }
 
   get state() {
     return this._state;
@@ -27,27 +29,22 @@ class WormholeStore extends whFSM {
         return getProcent(prc, this.startMass - devMargin);
       case "max":
         return getProcent(prc, this.startMass + devMargin);
-      case "base":
-        return getProcent(prc, this.startMass);
       default:
-        return getProcent(prc, this.startMass);
+        return null;
     }
   }
 
   shipPass(mass) {
-    this.baseMass = this.baseMass - mass;
     this.maxMass = this.maxMass - mass;
     this.minMass = this.minMass - mass;
-    this.lastJumpMass = mass;
   }
 }
 
 decorate(WormholeStore, {
-  baseMass: observable,
   minMass: observable,
   maxMass: observable,
-  shipmass: observable,
-  lastJumpMass: observable,
+  jumpLock: observable,
+  absMax: computed,
   state: computed,
   shipPass: action
 });
@@ -56,23 +53,17 @@ export class NewWormholeStore extends WormholeStore {
   shipJump(shipmass) {
     if (!this.is("close")) {
       this.shipPass(shipmass);
+      this.jumpLock = true;
+    }
+  }
 
-      if (this.is("fresh") && this.minMass > this.getGues("min", 50)) {
-        this.minMass = this.getGues("min", 50);
-      }
-      if (this.is("destab") && this.minMass > this.getGues("min", 50)) {
-        this.minMass = this.getGues("min", 50) + 1;
-      }
-
-      if (this.is("fresh") && this.maxMass < this.getGues("max", 50)) {
-        this.reduce();
-      }
-      if (this.is("destab") && this.maxMass < this.getGues("max", 10)) {
-        this.disrupte();
-      }
-      if (this.is("verge") && this.maxMass < 0) {
-        this.collapse();
-      }
+  completeJump() {
+    this.jumpLock = false;
+    if (this.is("fresh") && this.minMass < this.getGues("min", 50)) {
+      this.minMass = this.getGues("min", 50);
+    }
+    if (this.is("destab") && this.minMass < this.getGues("min", 10)) {
+      this.minMass = this.getGues("min", 10);
     }
   }
 
@@ -83,6 +74,7 @@ export class NewWormholeStore extends WormholeStore {
       console.error(err);
       return;
     }
+    this.jumpLock = false;
     if (this.maxMass > this.getGues("max", 50)) {
       this.maxMass = this.getGues("max", 50) - 1;
     }
@@ -95,8 +87,9 @@ export class NewWormholeStore extends WormholeStore {
       console.error(err);
       return;
     }
-    if (this.maxMass > this.getGues("max", 50)) {
-      this.maxMass = this.getGues("max", 50);
+    this.jumpLock = false;
+    if (this.maxMass > this.getGues("min", 10)) {
+      this.maxMass = this.getGues("min", 10) - 1;
     }
   }
 
@@ -107,14 +100,15 @@ export class NewWormholeStore extends WormholeStore {
       console.error(err);
       return;
     }
+    this.jumpLock = true;
     this.maxMass = 0;
     this.minMass = 0;
-    this.baseMass = 0;
   }
 }
 
 decorate(NewWormholeStore, {
   shipJump: action,
+  completeJump: action,
   disrupte: action,
   collapse: action,
   reduce: action
