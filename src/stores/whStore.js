@@ -15,6 +15,8 @@ class WormholeStore extends whFSM {
 
   jumpLock = false;
 
+  lastJumpMass = 0;
+
   get absMax() {
     return this.startMass + devMargin;
   }
@@ -44,6 +46,7 @@ decorate(WormholeStore, {
   minMass: observable,
   maxMass: observable,
   jumpLock: observable,
+  lastJumpMass: observable,
   absMax: computed,
   state: computed,
   shipPass: action
@@ -54,6 +57,7 @@ export class NewWormholeStore extends WormholeStore {
     if (!this.is("close")) {
       this.shipPass(shipmass);
       this.jumpLock = true;
+      this.lastJumpMass = shipmass;
     }
   }
 
@@ -77,6 +81,9 @@ export class NewWormholeStore extends WormholeStore {
     this.jumpLock = false;
     if (this.maxMass > this.getGues("max", 50)) {
       this.maxMass = this.getGues("max", 50) - 1;
+    }
+    if (this.maxMass > this.getGues("min", 50)) {
+      this.minMass = this.getGues("min", 50) - this.lastJumpMass + 1;
     }
   }
 

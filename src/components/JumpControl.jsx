@@ -8,9 +8,12 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import { FilterTiltShift, Adjust, PlayForWork } from "@material-ui/icons/";
+
 const JumpControl = ({ whStore, shipStore }) => {
   const { state, jumpLock, minMass, maxMass } = whStore;
-  const { shipMass, mwdStatus } = shipStore;
+  const { shipMass, mwdStatus, modules } = shipStore;
+  const renderedModules = modules.slice();
+
   const critMapName = {
     fresh: "Stability Reduced (50%)",
     destab: "Stability Disrupted (10%)",
@@ -60,17 +63,20 @@ const JumpControl = ({ whStore, shipStore }) => {
                 </Button>
               }
             />
-            <FormControlLabel
-              control={
-                <Switch
-                  color="primary"
-                  checked={mwdStatus}
-                  disabled={jumpLock}
-                  onChange={() => shipStore.mwdTrigger()}
-                />
-              }
-              label="MWD "
-            />
+            {renderedModules.map(module => (
+              <FormControlLabel
+                key={module.id}
+                control={
+                  <Switch
+                    color="primary"
+                    checked={module.active}
+                    disabled={jumpLock || !module.canActivate}
+                    onClick={() => shipStore.triggerModule(module.id)}
+                  />
+                }
+                label={module.name}
+              />
+            ))}
           </FormGroup>
           <FormGroup col style={{ marginBottom: "20px" }}>
             <FormControlLabel
