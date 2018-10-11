@@ -48,7 +48,12 @@ export class ShipStore {
     }
     if (targetModule instanceof AB) {
       const mwd = this.modules.filter(module => module instanceof MWD);
-      mwd.forEach(module => module.lock());
+      const zpme = this.modules.filter(module => module instanceof ZPME);
+      if (zpme.some(module => module.active)) {
+        mwd.forEach(module => module.forceLock());
+      } else {
+        mwd.forEach(module => module.forceUnlock());
+      }
     }
     if (targetModule instanceof ZPME) {
       const mwd = this.modules.filter(module => module instanceof MWD);
