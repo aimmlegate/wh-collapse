@@ -36,32 +36,30 @@ export class ShipStore {
       const sameTypeModule = this.modules.filter(
         module =>
           module.constructor === targetModule.constructor &&
-          module != targetModule
+          module !== targetModule
       );
-      sameTypeModule.forEach(module => module.lock());
+      sameTypeModule.forEach(module => module.forceDeactivate());
     }
     if (targetModule instanceof MWD) {
       const ab = this.modules.filter(module => module instanceof AB);
       const zpme = this.modules.filter(module => module instanceof ZPME);
-      ab.forEach(module => module.lock());
-      zpme.forEach(module => module.lock());
+      if (zpme.some(module => module.active)) {
+        zpme.forEach(module => module.forceDeactivate());
+      }
+      if (ab.some(module => module.active)) {
+        ab.forEach(module => module.forceDeactivate());
+      }
     }
     if (targetModule instanceof AB) {
       const mwd = this.modules.filter(module => module instanceof MWD);
-      const zpme = this.modules.filter(module => module instanceof ZPME);
-      if (zpme.some(module => module.active)) {
-        mwd.forEach(module => module.forceLock());
-      } else {
-        mwd.forEach(module => module.forceUnlock());
+      if (mwd.some(module => module.active)) {
+        mwd.forEach(module => module.forceDeactivate());
       }
     }
     if (targetModule instanceof ZPME) {
       const mwd = this.modules.filter(module => module instanceof MWD);
-      const zpme = this.modules.filter(module => module instanceof ZPME);
-      if (zpme.some(module => module.active)) {
-        mwd.forEach(module => module.forceLock());
-      } else {
-        mwd.forEach(module => module.forceUnlock());
+      if (mwd.some(module => module.active)) {
+        mwd.forEach(module => module.forceDeactivate());
       }
     }
   }

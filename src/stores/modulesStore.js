@@ -7,25 +7,14 @@ class ShipModule {
     this.name = name;
   }
 
-  canActivate = true;
   active = false;
 
   trigger() {
-    if (this.canActivate) {
-      this.active = !this.active;
-    }
+    this.active = !this.active;
   }
 
-  lock() {
-    this.canActivate = !this.canActivate;
-  }
-
-  forceLock() {
-    this.canActivate = false;
-  }
-
-  forceUnlock() {
-    this.canActivate = true;
+  forceDeactivate() {
+    this.active = false;
   }
 }
 
@@ -33,9 +22,7 @@ decorate(ShipModule, {
   active: observable,
   canActivate: observable,
   trigger: action,
-  lock: action,
-  forceLock: action,
-  forceUnlock: action
+  forceDeactivate: action
 });
 
 export class MWD extends ShipModule {

@@ -70,7 +70,7 @@ const JumpControl = ({ whStore, shipStore }) => {
                   <Switch
                     color="primary"
                     checked={module.active}
-                    disabled={jumpLock || !module.canActivate}
+                    disabled={jumpLock}
                     onClick={() => shipStore.triggerModule(module.id)}
                   />
                 }
