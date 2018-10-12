@@ -27,6 +27,10 @@ export default class WormholeFSM {
     }
   }
 
+  _reset() {
+    this._state = "fresh";
+  }
+
   is(state) {
     return this._state === state;
   }
@@ -36,5 +40,6 @@ decorate(WormholeFSM, {
   _state: observable,
   _reduce: action,
   _disrupte: action,
+  _reset: action,
   collapse: action
 });

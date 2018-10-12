@@ -22,7 +22,7 @@ const zpme2 = new ZPME(22, "zpme2", 80);
 const zpme3 = new ZPME(32, "zpme3", 80);
 const zpme4 = new ZPME(42, "zpme4", 80);
 
-const whstore = new NewWormholeStore();
+const whstore = new NewWormholeStore(2000000);
 
 const shipstore = new ShipStore(
   [mwd1, mwd2, mwd3, mwd4, ab1, ab2, ab3, ab4, zpme1, zpme2, zpme3, zpme4],

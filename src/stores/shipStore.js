@@ -3,7 +3,9 @@ import { MWD, AB, ZPME } from "./modulesStore";
 import { stackPenalty } from "../utils";
 
 export class ShipStore {
-  constructor(modules, mass) {
+  constructor(id, name, modules, mass) {
+    this.id = id;
+    this.name = name;
     this.baseMass = mass;
     this.modules = modules;
   }

@@ -2,23 +2,25 @@ import { observable, action, computed, decorate } from "mobx";
 import { getProcent } from "../utils";
 import whFSM from "./whFSM";
 
-const WH_MASS = 2000000;
 const DEVIATION = 10;
-const devMargin = getProcent(DEVIATION, WH_MASS);
 
 class WormholeStore extends whFSM {
-  startMass = WH_MASS;
-
-  maxMass = WH_MASS + devMargin;
-
-  minMass = WH_MASS - devMargin;
+  constructor(id, name, startMass) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.startMass = startMass;
+    this.devMargin = getProcent(DEVIATION, startMass);
+    this.maxMass = this.startMass + this.devMargin;
+    this.minMass = this.startMass - this.devMargin;
+  }
 
   jumpLock = false;
 
   lastJumpMass = 0;
 
   get absMax() {
-    return this.startMass + devMargin;
+    return this.startMass + this.devMargin;
   }
 
   get state() {
@@ -28,9 +30,9 @@ class WormholeStore extends whFSM {
   getGues(key, prc) {
     switch (key) {
       case "min":
-        return getProcent(prc, this.startMass - devMargin);
+        return getProcent(prc, this.startMass - this.devMargin);
       case "max":
-        return getProcent(prc, this.startMass + devMargin);
+        return getProcent(prc, this.startMass + this.devMargin);
       default:
         return null;
     }
@@ -39,6 +41,12 @@ class WormholeStore extends whFSM {
   shipPass(mass) {
     this.maxMass = this.maxMass - mass;
     this.minMass = this.minMass - mass;
+  }
+
+  reset() {
+    this._reset();
+    this.maxMass = this.startMass + this.devMargin;
+    this.minMass = this.startMass - this.devMargin;
   }
 }
 
@@ -49,7 +57,8 @@ decorate(WormholeStore, {
   lastJumpMass: observable,
   absMax: computed,
   state: computed,
-  shipPass: action
+  shipPass: action,
+  reset: action
 });
 
 export class NewWormholeStore extends WormholeStore {
