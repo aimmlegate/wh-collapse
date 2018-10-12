@@ -1,8 +1,8 @@
 import { observable, action, computed, decorate } from "mobx";
-import { MWD, AB, ZPME } from "./modulesStore";
+import { MWD, AB, ZPME } from "./modulesConstructor";
 import { stackPenalty } from "../utils";
 
-export class ShipStore {
+export class Ship {
   constructor(id, name, modules, mass) {
     this.id = id;
     this.name = name;
@@ -67,7 +67,7 @@ export class ShipStore {
   }
 }
 
-decorate(ShipStore, {
+decorate(Ship, {
   baseMass: observable,
   shipMass: computed,
   triggerModule: action,

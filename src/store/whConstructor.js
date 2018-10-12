@@ -4,7 +4,7 @@ import whFSM from "./whFSM";
 
 const DEVIATION = 10;
 
-class WormholeStore extends whFSM {
+class WormholeBase extends whFSM {
   constructor(id, name, startMass) {
     super();
     this.id = id;
@@ -50,7 +50,7 @@ class WormholeStore extends whFSM {
   }
 }
 
-decorate(WormholeStore, {
+decorate(WormholeBase, {
   minMass: observable,
   maxMass: observable,
   jumpLock: observable,
@@ -61,7 +61,7 @@ decorate(WormholeStore, {
   reset: action
 });
 
-export class NewWormholeStore extends WormholeStore {
+export class Wormhole extends WormholeBase {
   shipJump(shipmass) {
     if (!this.is("close")) {
       this.shipPass(shipmass);
@@ -122,7 +122,7 @@ export class NewWormholeStore extends WormholeStore {
   }
 }
 
-decorate(NewWormholeStore, {
+decorate(Wormhole, {
   shipJump: action,
   completeJump: action,
   disrupte: action,

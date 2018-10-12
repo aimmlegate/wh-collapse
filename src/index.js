@@ -38,6 +38,8 @@ const app = new AppStore(
   [mwd1, mwd2, mwd3, mwd4, ab1, ab2, ab3, ab4, zpme1, zpme2, zpme3, zpme4]
 );
 
+console.log(app);
+
 ReactDOM.render(
   <Provider whStore={whstore} shipStore={shipstore} appStore={app}>
     <App />

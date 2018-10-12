@@ -1,10 +1,9 @@
 import { observable, action, decorate, computed } from "mobx";
 
 export class AppStore {
-  constructor(wormholes, ships, modules) {
+  constructor(wormholes, ships) {
     this.wormholes = wormholes;
     this.ships = ships;
-    this.modules = modules;
   }
 
   _currentWh = null;
@@ -23,7 +22,10 @@ export class AppStore {
   }
 
   get currentWh() {
-    return this.wormholes.filter(wh => wh.id === this._currentWh)[0];
+    if (this._currentWh) {
+      return this.wormholes.filter(wh => wh.id === this._currentWh)[0];
+    }
+    return null;
   }
 
   set setCurrentShip(id) {
@@ -35,11 +37,14 @@ export class AppStore {
   }
 
   get currentShip() {
-    return this.ships.filter(ship => ship.id === this._currentShip)[0];
+    if (this._currentShip) {
+      return this.ships.filter(ship => ship.id === this._currentShip)[0];
+    }
+    return null;
   }
 
   get simulationStatus() {
-    return this._currentShip && this._currentWh;
+    return this._currentShip && this._currentWh ? true : false;
   }
 }
 
