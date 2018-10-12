@@ -1,6 +1,6 @@
-import { observable, action, decorate } from "mobx";
+import { observable, action, decorate, computed } from "mobx";
 
-class App {
+export class AppStore {
   constructor(wormholes, ships, modules) {
     this.wormholes = wormholes;
     this.ships = ships;
@@ -10,7 +10,7 @@ class App {
   _currentWh = null;
   _currentShip = null;
 
-  set currentWh(id) {
+  set setCurrentWh(id) {
     if (this.wormholes.some(wh => wh.id === id)) {
       const currentWh = this.wormholes.filter(
         wh => wh.id === this._currentWh
@@ -26,7 +26,7 @@ class App {
     return this.wormholes.filter(wh => wh.id === this._currentWh)[0];
   }
 
-  set currentShip(id) {
+  set setCurrentShip(id) {
     if (this.ships.some(ship => ship.id === id)) {
       this._currentShip = id;
     } else {
@@ -42,3 +42,16 @@ class App {
     return this._currentShip && this._currentWh;
   }
 }
+
+decorate(AppStore, {
+  wormholes: observable,
+  ships: observable,
+  modules: observable,
+  _currentWh: observable,
+  _currentShip: observable,
+  currentWh: computed,
+  currentShip: computed,
+  simulationStatus: computed,
+  setCurrentWh: action,
+  setCurrentShip: action
+});

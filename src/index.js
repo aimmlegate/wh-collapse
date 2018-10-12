@@ -6,6 +6,7 @@ import "./assets/index.css";
 import { NewWormholeStore } from "./stores/whStore";
 import { ShipStore } from "./stores/shipStore";
 import { MWD, AB, ZPME } from "./stores/modulesStore";
+import { AppStore } from "./stores/appStore";
 
 const mwd1 = new MWD(1, "mwd1", 100000);
 const mwd2 = new MWD(2, "mwd2", 100000);
@@ -22,15 +23,23 @@ const zpme2 = new ZPME(22, "zpme2", 80);
 const zpme3 = new ZPME(32, "zpme3", 80);
 const zpme4 = new ZPME(42, "zpme4", 80);
 
-const whstore = new NewWormholeStore(2000000);
+const whstore = new NewWormholeStore(1, "hi", 2000000);
 
 const shipstore = new ShipStore(
+  1,
+  "hui",
   [mwd1, mwd2, mwd3, mwd4, ab1, ab2, ab3, ab4, zpme1, zpme2, zpme3, zpme4],
   196800
 );
 
+const app = new AppStore(
+  [whstore],
+  [shipstore],
+  [mwd1, mwd2, mwd3, mwd4, ab1, ab2, ab3, ab4, zpme1, zpme2, zpme3, zpme4]
+);
+
 ReactDOM.render(
-  <Provider whStore={whstore} shipStore={shipstore}>
+  <Provider whStore={whstore} shipStore={shipstore} appStore={app}>
     <App />
   </Provider>,
   document.getElementById("root")
