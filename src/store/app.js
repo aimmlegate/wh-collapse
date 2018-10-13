@@ -44,7 +44,7 @@ export class AppStore {
   }
 
   get simulationStatus() {
-    return this._currentShip && this._currentWh ? true : false;
+    return this._currentShip && this._currentWh ? "READY" : "NOT_READY";
   }
 }
 

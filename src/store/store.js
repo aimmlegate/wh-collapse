@@ -1,8 +1,8 @@
 import { uniqueId } from "lodash";
-import { Wormhole } from "./stores/whConstructor";
-import { Ship } from "./stores/shipConstructor";
-import { MWD, AB, ZPME } from "./stores/modulesConstructor";
-import { AppStore } from "./stores/appConstructor";
+import { Wormhole } from "./wormholes";
+import { Ship } from "./ships";
+import { MWD, AB, ZPME } from "./modules";
+import { AppStore } from "./app";
 
 const wormholes = [
   new Wormhole(uniqueId("wh_"), "L477", 2000000000),
@@ -16,12 +16,13 @@ const wormholes = [
 
 const ships = [
   new Ship(uniqueId("ship_"), "Megathron", 1968000, [
-    new MWD(uniqueId("mod_"), "500MN Mwd", 50000000),
-    new AB(uniqueId("mod_"), "100MN Ab", 50000000)
+    new MWD(uniqueId("mod_"), "500MN Mwd", 50000000)
   ]),
   new Ship(uniqueId("ship_"), "Hic", 1620000, [
-    new MWD(uniqueId("mod_"), "500MN Mwd", 50000000),
+    new MWD(uniqueId("mod_"), "50MN Mwd", 5000000),
     new AB(uniqueId("mod_"), "100MN Ab", 50000000),
     new ZPME(uniqueId("mod_"), "ZPME", 80)
   ])
 ];
+
+export default new AppStore(wormholes, ships);

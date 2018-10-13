@@ -1,17 +1,15 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { inject, observer } from "mobx-react";
-import { flowRight as compose } from "lodash";
-import AppBar from "./AppBar";
+import AppHeader from "./AppHeader";
 import WhStatus from "./WhStatus";
 import AppData from "./AppData";
 import WhProgress from "./WhProgress";
 import JumpControl from "./JumpControl";
 
-const App = ({ whStore }) => {
+const App = () => {
   return (
     <>
-      <AppBar />
+      <AppHeader />
       <div style={{ padding: 20, maxWidth: "1200px", margin: "0 auto" }}>
         <Grid container spacing={16}>
           <Grid item md={12}>
@@ -32,7 +30,4 @@ const App = ({ whStore }) => {
   );
 };
 
-export default compose(
-  inject("whStore"),
-  observer
-)(App);
+export default App;

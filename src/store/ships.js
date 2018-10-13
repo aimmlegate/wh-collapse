@@ -1,5 +1,5 @@
 import { observable, action, computed, decorate } from "mobx";
-import { MWD, AB, ZPME } from "./modulesConstructor";
+import { MWD, AB, ZPME } from "./modules";
 import { stackPenalty } from "../utils";
 
 export class Ship {

@@ -6,29 +6,23 @@ import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 
-const AppData = ({
-  whStore: { maxMass, minMass },
-  shipStore: { shipMass }
-}) => {
+const AppData = () => {
   return (
     <List>
       <Divider />
       <ListItem>
-        <ListItemText primary="Max WH mass" secondary={maxMass} />
+        <ListItemText primary="Max WH mass" secondary={0} />
       </ListItem>
       <Divider />
       <ListItem>
-        <ListItemText primary="Min WH mass" secondary={minMass} />
+        <ListItemText primary="Min WH mass" secondary={0} />
       </ListItem>
       <Divider />
       <ListItem>
-        <ListItemText primary="Ship mass" secondary={shipMass} />
+        <ListItemText primary="Ship mass" secondary={0} />
       </ListItem>
     </List>
   );
 };
 
-export default compose(
-  inject("whStore", "shipStore"),
-  observer
-)(AppData);
+export default AppData;
