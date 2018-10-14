@@ -3,7 +3,7 @@ import { MWD, AB, ZPME } from "./modules";
 import { stackPenalty } from "../utils";
 
 export default class Ship {
-  constructor(id, name, modules, mass) {
+  constructor(id, name, mass, modules) {
     this.id = id;
     this.name = name;
     this.baseMass = mass;

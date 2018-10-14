@@ -7,15 +7,18 @@ export default class AppStore {
   }
 
   _currentWh = null;
+
   _currentShip = null;
 
-  set setCurrentWh(id) {
+  simulationOn = false;
+
+  setCurrentWh(id) {
     if (this.wormholes.some(wh => wh.id === id)) {
+      this._currentWh = id;
       const currentWh = this.wormholes.filter(
         wh => wh.id === this._currentWh
       )[0];
       currentWh.reset();
-      this._currentWh = id;
     } else {
       console.error(new Error("undefined wormhole id"));
     }
@@ -28,7 +31,7 @@ export default class AppStore {
     return null;
   }
 
-  set setCurrentShip(id) {
+  setCurrentShip(id) {
     if (this.ships.some(ship => ship.id === id)) {
       this._currentShip = id;
     } else {
@@ -46,17 +49,28 @@ export default class AppStore {
   get simulationStatus() {
     return this._currentShip && this._currentWh ? "READY" : "NOT_READY";
   }
+
+  simulationStart() {
+    if (this._currentShip && this._currentWh) {
+      this.simulationOn = true;
+    }
+  }
+
+  simulationEnd() {
+    this.simulationOn = false;
+  }
 }
 
 decorate(AppStore, {
   wormholes: observable,
   ships: observable,
-  modules: observable,
   _currentWh: observable,
   _currentShip: observable,
   currentWh: computed,
   currentShip: computed,
   simulationStatus: computed,
   setCurrentWh: action,
-  setCurrentShip: action
+  setCurrentShip: action,
+  simulationStart: action,
+  simulationEnd: action
 });

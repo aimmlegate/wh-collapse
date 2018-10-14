@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
 import { Provider } from "mobx-react";
-import appState from "./store/store.js";
+import App from "./components/App.jsx";
+import appState from "./store/store";
 
 console.log(appState);
 
 ReactDOM.render(
-  <Provider appState={appState}>
+  <Provider appStore={appState}>
     <App />
   </Provider>,
   document.getElementById("root")
