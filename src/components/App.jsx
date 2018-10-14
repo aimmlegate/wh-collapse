@@ -1,10 +1,10 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import AppHeader from "./AppHeader";
-import WhStatus from "./WhStatus";
-import AppData from "./AppData";
-import WhProgress from "./WhProgress";
-import JumpControl from "./JumpControl";
+import AppHeader from "./AppHeader.jsx";
+import WhStatus from "./WhStatus.jsx";
+import AppData from "./AppData.jsx";
+import WhProgress from "./WhProgress.jsx";
+import JumpControl from "./JumpControl.jsx";
 
 const App = () => {
   return (

@@ -1,8 +1,8 @@
 import { uniqueId } from "lodash";
-import { Wormhole } from "./wormholes";
-import { Ship } from "./ships";
+import Wormhole from "./wormholes";
+import Ship from "./ships";
 import { MWD, AB, ZPME } from "./modules";
-import { AppStore } from "./app";
+import AppStore from "./app";
 
 const wormholes = [
   new Wormhole(uniqueId("wh_"), "L477", 2000000000),

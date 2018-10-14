@@ -1,6 +1,6 @@
 import { observable, action, decorate, computed } from "mobx";
 
-export class AppStore {
+export default class AppStore {
   constructor(wormholes, ships) {
     this.wormholes = wormholes;
     this.ships = ships;

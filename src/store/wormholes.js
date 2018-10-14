@@ -61,7 +61,7 @@ decorate(WormholeBase, {
   reset: action
 });
 
-export class Wormhole extends WormholeBase {
+export default class Wormhole extends WormholeBase {
   shipJump(shipmass) {
     if (!this.is("close")) {
       this.shipPass(shipmass);

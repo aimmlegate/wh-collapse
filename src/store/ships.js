@@ -2,7 +2,7 @@ import { observable, action, computed, decorate } from "mobx";
 import { MWD, AB, ZPME } from "./modules";
 import { stackPenalty } from "../utils";
 
-export class Ship {
+export default class Ship {
   constructor(id, name, modules, mass) {
     this.id = id;
     this.name = name;
@@ -23,9 +23,9 @@ export class Ship {
       this.baseMass
     );
     const procentTransformed = procentModules.reduce(
-      (resultMass, module, index) => {
-        return module.effect(resultMass, stackPenalty(index));
-      },
+      (resultMass, module, index) =>
+        module.effect(resultMass, stackPenalty(index)),
+
       plainTransformed
     );
     return procentTransformed;

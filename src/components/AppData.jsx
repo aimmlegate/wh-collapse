@@ -1,6 +1,4 @@
 import React from "react";
-import { inject, observer } from "mobx-react";
-import { flowRight as compose } from "lodash";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";

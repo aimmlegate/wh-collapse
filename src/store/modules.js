@@ -61,10 +61,7 @@ export class ZPME extends ShipModule {
 
   canStack = true;
 
-  effect = (mass, penalty) => {
-    return (
-      parseInt(mass, 10) -
-      penalty(getProcent(this.massReduceProcent, parseInt(mass, 10)))
-    );
-  };
+  effect = (mass, penalty) =>
+    parseInt(mass, 10) -
+    penalty(getProcent(this.massReduceProcent, parseInt(mass, 10)));
 }
