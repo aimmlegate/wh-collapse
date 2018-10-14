@@ -54,6 +54,7 @@ decorate(WormholeBase, {
   minMass: observable,
   maxMass: observable,
   jumpLock: observable,
+  name: observable,
   lastJumpMass: observable,
   absMax: computed,
   state: computed,

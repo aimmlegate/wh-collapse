@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
 import Button from "@material-ui/core/Button";
@@ -9,9 +10,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import { FilterTiltShift, Adjust, PlayForWork } from "@material-ui/icons/";
 
-const JumpControl = ({ whStore, shipStore }) => {
-  const { state, jumpLock, minMass, maxMass } = whStore;
-  const { shipMass, mwdStatus, modules } = shipStore;
+const JumpControl = ({ appStore: { currentShip, currentWh } }) => {
+  const { state, jumpLock, minMass, maxMass } = currentWh;
+  const { shipMass, modules } = currentShip;
   const renderedModules = modules.slice();
 
   const critMapName = {
@@ -21,9 +22,9 @@ const JumpControl = ({ whStore, shipStore }) => {
     close: "Reset (work in progress)"
   };
   const critMapFn = {
-    fresh: () => whStore.reduce(),
-    destab: () => whStore.disrupte(),
-    verge: () => whStore.collapse()
+    fresh: () => currentWh.reduce(),
+    destab: () => currentWh.disrupte(),
+    verge: () => currentWh.collapse()
   };
   const closeProbability = Math.abs(
     minMass < shipMass
@@ -56,7 +57,7 @@ const JumpControl = ({ whStore, shipStore }) => {
                   color="primary"
                   size="large"
                   disabled={jumpLock}
-                  onClick={() => whStore.shipJump(shipMass)}
+                  onClick={() => currentWh.shipJump(shipMass)}
                 >
                   <PlayForWork />
                   Jump
@@ -71,7 +72,7 @@ const JumpControl = ({ whStore, shipStore }) => {
                     color="primary"
                     checked={module.active}
                     disabled={jumpLock}
-                    onClick={() => shipStore.triggerModule(module.id)}
+                    onClick={() => currentShip.triggerModule(module.id)}
                   />
                 }
                 label={module.name}
@@ -89,7 +90,7 @@ const JumpControl = ({ whStore, shipStore }) => {
                   aria-label="Add"
                   disabled={!jumpLock}
                   style={{ marginRight: "10px" }}
-                  onClick={() => whStore.completeJump()}
+                  onClick={() => currentWh.completeJump()}
                 >
                   <Adjust />
                 </Button>
@@ -121,7 +122,11 @@ const JumpControl = ({ whStore, shipStore }) => {
   );
 };
 
+JumpControl.propTypes = {
+  appStore: PropTypes.object.isRequired
+};
+
 export default compose(
-  inject("whStore", "shipStore"),
+  inject("appStore"),
   observer
 )(JumpControl);

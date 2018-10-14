@@ -2,8 +2,6 @@ import React from "react";
 import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
 import Dialog from "@material-ui/core/Dialog";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import AppBar from "@material-ui/core/AppBar";
@@ -14,14 +12,13 @@ import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import SelectMenu from "./SelectMenu.jsx";
 
-const SimulationDialog = ({ appStore, handleClose, ...props }) => {
+const SimulationDialog = ({ appStore, handleClose, handleStart, ...props }) => {
   const {
     wormholes,
     ships,
-    currentWh,
-    currentShip,
     simulationStatus,
-    simulationStart
+    currentWhId,
+    currentShipId
   } = appStore;
   const optionsShips = ships.reduce(
     (acc, ship) => ({ ...acc, [ship.id]: ship.name }),
@@ -48,7 +45,7 @@ const SimulationDialog = ({ appStore, handleClose, ...props }) => {
           </Typography>
           <Button
             color="inherit"
-            onClick={handleClose}
+            onClick={handleStart}
             disabled={simulationStatus === "NOT_READY"}
           >
             start
@@ -59,12 +56,14 @@ const SimulationDialog = ({ appStore, handleClose, ...props }) => {
         <SelectMenu
           name="Wormhole"
           options={optionsWormholes}
+          selectedId={currentWhId}
           onChange={id => appStore.setCurrentWh(id)}
         />
         <Divider />
         <SelectMenu
           name="Ship"
           options={optionsShips}
+          selectedId={currentShipId}
           onChange={id => appStore.setCurrentShip(id)}
         />
       </List>

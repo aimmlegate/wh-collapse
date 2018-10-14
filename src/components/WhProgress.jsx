@@ -1,8 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
+
 import {
   ResponsiveContainer,
   BarChart,
@@ -10,13 +10,14 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend
 } from "recharts";
 
 const WhProgress = ({
-  whStore: { maxMass, minMass, absMax },
-  shipStore: { shipMass }
+  appStore: {
+    currentShip: { shipMass },
+    currentWh: { maxMass, minMass, absMax }
+  }
 }) => {
   const normalise = value => ((value - 0) * 100) / (absMax - 0);
   const genValues = () => [
@@ -57,7 +58,11 @@ const WhProgress = ({
   );
 };
 
+WhProgress.propTypes = {
+  appStore: PropTypes.object.isRequired
+};
+
 export default compose(
-  inject("whStore", "shipStore"),
+  inject("appStore"),
   observer
 )(WhProgress);

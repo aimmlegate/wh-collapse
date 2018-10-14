@@ -6,17 +6,19 @@ export default class AppStore {
     this.ships = ships;
   }
 
-  _currentWh = null;
+  currentWhId = null;
 
-  _currentShip = null;
+  currentShipId = null;
 
   simulationOn = false;
 
+  simDialogStatus = false;
+
   setCurrentWh(id) {
     if (this.wormholes.some(wh => wh.id === id)) {
-      this._currentWh = id;
+      this.currentWhId = id;
       const currentWh = this.wormholes.filter(
-        wh => wh.id === this._currentWh
+        wh => wh.id === this.currentWhId
       )[0];
       currentWh.reset();
     } else {
@@ -25,33 +27,33 @@ export default class AppStore {
   }
 
   get currentWh() {
-    if (this._currentWh) {
-      return this.wormholes.filter(wh => wh.id === this._currentWh)[0];
+    if (this.currentWhId) {
+      return this.wormholes.filter(wh => wh.id === this.currentWhId)[0];
     }
     return null;
   }
 
   setCurrentShip(id) {
     if (this.ships.some(ship => ship.id === id)) {
-      this._currentShip = id;
+      this.currentShipId = id;
     } else {
       console.error(new Error("undefined ship id"));
     }
   }
 
   get currentShip() {
-    if (this._currentShip) {
-      return this.ships.filter(ship => ship.id === this._currentShip)[0];
+    if (this.currentShipId) {
+      return this.ships.filter(ship => ship.id === this.currentShipId)[0];
     }
     return null;
   }
 
   get simulationStatus() {
-    return this._currentShip && this._currentWh ? "READY" : "NOT_READY";
+    return this.currentShipId && this.currentWhId ? "READY" : "NOT_READY";
   }
 
   simulationStart() {
-    if (this._currentShip && this._currentWh) {
+    if (this.currentShipId && this.currentWhId) {
       this.simulationOn = true;
     }
   }
@@ -59,18 +61,30 @@ export default class AppStore {
   simulationEnd() {
     this.simulationOn = false;
   }
+
+  openNewSimDialog() {
+    this.simDialogStatus = true;
+  }
+
+  closeNewSimDialog() {
+    this.simDialogStatus = false;
+  }
 }
 
 decorate(AppStore, {
   wormholes: observable,
   ships: observable,
-  _currentWh: observable,
-  _currentShip: observable,
+  currentWhId: observable,
+  currentShipId: observable,
+  simulationOn: observable,
   currentWh: computed,
   currentShip: computed,
   simulationStatus: computed,
   setCurrentWh: action,
   setCurrentShip: action,
   simulationStart: action,
-  simulationEnd: action
+  simulationEnd: action,
+  simDialogStatus: observable,
+  openNewSimDialog: action,
+  closeNewSimDialog: action
 });

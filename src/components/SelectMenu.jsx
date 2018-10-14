@@ -8,7 +8,7 @@ import Menu from "@material-ui/core/Menu";
 class SimpleListMenu extends React.Component {
   state = {
     anchorEl: null,
-    selectedIndex: 1
+    selectedIndex: this.props.selectedId
   };
 
   handleClickListItem = event => {
@@ -67,8 +67,9 @@ class SimpleListMenu extends React.Component {
 SimpleListMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  options: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  selectedId: PropTypes.string.isRequired
 };
 
 export default SimpleListMenu;

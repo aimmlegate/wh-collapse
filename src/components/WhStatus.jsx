@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -7,7 +8,9 @@ import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
 
 const WhStatus = ({
-  whStore: { baseMass, maxMass, minMass, shipmass, state }
+  appStore: {
+    currentWh: { state }
+  }
 }) => {
   const stepMap = {
     fresh: 0,
@@ -70,7 +73,11 @@ const WhStatus = ({
   );
 };
 
+WhStatus.propTypes = {
+  appStore: PropTypes.object.isRequired
+};
+
 export default compose(
-  inject("whStore"),
+  inject("appStore"),
   observer
 )(WhStatus);

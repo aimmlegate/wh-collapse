@@ -1,36 +1,42 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid";
 import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
-import Button from "@material-ui/core/Button";
-import SimulationDialog from "./SimulationDialog.jsx";
+import AppData from "./AppData.jsx";
+import JumpControl from "./JumpControl.jsx";
+import WhProgress from "./WhProgress.jsx";
+import WhStatus from "./WhStatus.jsx";
 
-class Simulation extends Component {
-  state = {
-    open: false
-  };
+const Simulation = ({ appStore }) => {
+  const { simulationOn } = appStore;
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+  return (
+    <>
+      {simulationOn ? (
+        <Grid container spacing={16}>
+          <Grid item xs={12}>
+            <WhStatus />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <JumpControl />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <AppData />
+          </Grid>
+          <Grid item xs={12}>
+            <WhProgress />
+          </Grid>
+        </Grid>
+      ) : null}
+    </>
+  );
+};
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  render() {
-    return (
-      <>
-        <Button onClick={this.handleClickOpen}>Open full-screen dialog</Button>
-        <SimulationDialog
-          fullScreen
-          open={this.state.open}
-          onClose={this.handleClose}
-          handleClose={this.handleClose}
-        />
-      </>
-    );
-  }
-}
+Simulation.propTypes = {
+  appStore: PropTypes.object.isRequired,
+  simulationOn: PropTypes.bool.isRequired
+};
 
 export default compose(
   inject("appStore"),
