@@ -7,16 +7,25 @@ import { inject, observer } from "mobx-react";
 import { flowRight as compose } from "lodash";
 import Button from "@material-ui/core/Button";
 import SimulationDialog from "./SimulationDialog.jsx";
+import EditShipsDialog from "./EditShipsDialog.jsx";
 
 const AppHeader = ({ appStore }) => {
-  const { simDialogStatus } = appStore;
+  const { simDialogStatus, editDialogStatus } = appStore;
 
-  const handleClickOpen = () => {
+  const handleClickNewOpen = () => {
     appStore.openNewSimDialog();
   };
 
-  const handleClose = () => {
+  const handleNewClose = () => {
     appStore.closeNewSimDialog();
+  };
+
+  const handleClickEditOpen = () => {
+    appStore.openEditDialog();
+  };
+
+  const handleEditClose = () => {
+    appStore.closeEditDialog();
   };
 
   const handleStart = () => {
@@ -29,14 +38,22 @@ const AppHeader = ({ appStore }) => {
       <SimulationDialog
         fullScreen
         open={simDialogStatus}
-        handleClose={handleClose}
+        handleClose={handleNewClose}
         handleStart={handleStart}
+      />
+      <EditShipsDialog
+        fullScreen
+        open={editDialogStatus}
+        handleClose={handleEditClose}
       />
       <Toolbar>
         <Typography variant="h6" color="inherit" style={{ flex: 1 }}>
           Phayder WH-Collapse
         </Typography>
-        <Button color="inherit" onClick={handleClickOpen}>
+        <Button color="inherit" onClick={handleClickEditOpen}>
+          Ships
+        </Button>
+        <Button color="inherit" onClick={handleClickNewOpen}>
           Start New
         </Button>
       </Toolbar>
