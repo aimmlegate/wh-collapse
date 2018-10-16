@@ -16,6 +16,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import { withStyles } from "@material-ui/core/styles";
+import AddShipDialog from "./AddShipDialog.jsx";
 
 const styles = theme => ({
   fab: {
@@ -27,13 +28,14 @@ const styles = theme => ({
 
 const EditShipsDialog = ({
   appStore,
+  guiStore,
   handleClose,
   handleStart,
   classes,
   ...props
 }) => {
   const { ships } = appStore;
-
+  const { addShipDialog } = guiStore;
   return (
     <Dialog {...props}>
       <AppBar style={{ position: "relative" }}>
@@ -72,7 +74,16 @@ const EditShipsDialog = ({
               ))}
             </TableBody>
           </Table>
-          <Button variant="fab" color="secondary" className={classes.fab}>
+          <AddShipDialog
+            open={addShipDialog}
+            close={() => guiStore.closeAddShipDialog()}
+          />
+          <Button
+            variant="fab"
+            color="secondary"
+            className={classes.fab}
+            onClick={() => guiStore.openAddShipDialog()}
+          >
             <AddIcon />
           </Button>
         </Grid>
@@ -83,6 +94,6 @@ const EditShipsDialog = ({
 
 export default compose(
   withStyles(styles),
-  inject("appStore"),
+  inject("appStore", "guiStore"),
   observer
 )(EditShipsDialog);
