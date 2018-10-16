@@ -3,6 +3,7 @@ import Wormhole from "./wormholes";
 import Ship from "./ships";
 import { MWD, AB, ZPME } from "./modules";
 import AppStore from "./app";
+import GuiState from "./gui";
 
 const wormholes = [
   new Wormhole(uniqueId("wh_"), "L477", 2000000000),
@@ -25,4 +26,7 @@ const ships = [
   ])
 ];
 
-export default new AppStore(wormholes, ships);
+const appStore = new AppStore(wormholes, ships);
+const guiStore = new GuiState();
+
+export { appStore, guiStore };

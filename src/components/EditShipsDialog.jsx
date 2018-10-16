@@ -61,7 +61,7 @@ const EditShipsDialog = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {ships.slice().map(ship => (
+              {ships.map(ship => (
                 <TableRow key={ship.id}>
                   <TableCell>{ship.name}</TableCell>
                   <TableCell>{ship.baseMass}</TableCell>

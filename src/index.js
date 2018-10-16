@@ -2,12 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 import App from "./components/App.jsx";
-import appState from "./store/store";
-
-console.log(appState);
+import { appStore, guiStore } from "./store/store";
 
 ReactDOM.render(
-  <Provider appStore={appState}>
+  <Provider appStore={appStore} guiStore={guiStore}>
     <App />
   </Provider>,
   document.getElementById("root")

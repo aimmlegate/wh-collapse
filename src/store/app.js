@@ -10,12 +10,6 @@ export default class AppStore {
 
   currentShipId = null;
 
-  simulationOn = false;
-
-  simDialogStatus = false;
-
-  editDialogStatus = false;
-
   setCurrentWh(id) {
     if (this.wormholes.some(wh => wh.id === id)) {
       this.currentWhId = id;
@@ -53,32 +47,6 @@ export default class AppStore {
   get simulationStatus() {
     return this.currentShipId && this.currentWhId ? "READY" : "NOT_READY";
   }
-
-  simulationStart() {
-    if (this.currentShipId && this.currentWhId) {
-      this.simulationOn = true;
-    }
-  }
-
-  simulationEnd() {
-    this.simulationOn = false;
-  }
-
-  openNewSimDialog() {
-    this.simDialogStatus = true;
-  }
-
-  closeNewSimDialog() {
-    this.simDialogStatus = false;
-  }
-
-  openEditDialog() {
-    this.editDialogStatus = true;
-  }
-
-  closeEditDialog() {
-    this.editDialogStatus = false;
-  }
 }
 
 decorate(AppStore, {
@@ -91,13 +59,5 @@ decorate(AppStore, {
   currentShip: computed,
   simulationStatus: computed,
   setCurrentWh: action,
-  setCurrentShip: action,
-  simulationStart: action,
-  simulationEnd: action,
-  simDialogStatus: observable,
-  editDialogStatus: observable,
-  openNewSimDialog: action,
-  closeNewSimDialog: action,
-  openEditDialog: action,
-  closeEditDialog: action
+  setCurrentShip: action
 });
