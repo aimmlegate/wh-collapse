@@ -7,6 +7,7 @@ import AppData from "./AppData.jsx";
 import JumpControl from "./JumpControl.jsx";
 import WhProgress from "./WhProgress.jsx";
 import WhStatus from "./WhStatus.jsx";
+import JumpHistory from "./JumpHistory.jsx";
 
 const Simulation = ({ appStore }) => {
   const { simulationStatus } = appStore;
@@ -20,6 +21,7 @@ const Simulation = ({ appStore }) => {
           </Grid>
           <Grid item md={6} xs={12}>
             <JumpControl />
+            <JumpHistory />
           </Grid>
           <Grid item md={6} xs={12}>
             <AppData />

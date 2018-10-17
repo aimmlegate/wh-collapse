@@ -19,6 +19,8 @@ class WormholeBase extends whFSM {
 
   lastJumpMass = 0;
 
+  jumpsHistory = [];
+
   get absMax() {
     return this.startMass + this.devMargin;
   }
@@ -56,6 +58,7 @@ decorate(WormholeBase, {
   jumpLock: observable,
   name: observable,
   lastJumpMass: observable,
+  jumpsHistory: observable,
   absMax: computed,
   state: computed,
   shipPass: action,
@@ -63,11 +66,12 @@ decorate(WormholeBase, {
 });
 
 export default class Wormhole extends WormholeBase {
-  shipJump(shipmass) {
+  shipJump(shipmass, basemass, shipname) {
     if (!this.is("close")) {
-      this.shipPass(shipmass);
+      this.shipPass(shipmass, shipname);
       this.jumpLock = true;
       this.lastJumpMass = shipmass;
+      this.jumpsHistory.push({ shipmass, basemass, shipname });
     }
   }
 

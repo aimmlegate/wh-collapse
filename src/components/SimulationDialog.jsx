@@ -9,7 +9,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import Button from "@material-ui/core/Button";
 import SelectMenu from "./SelectMenu.jsx";
 
 const SimulationDialog = ({ appStore, handleClose, handleStart, ...props }) => {

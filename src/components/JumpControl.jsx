@@ -12,7 +12,7 @@ import { FilterTiltShift, Adjust, PlayForWork } from "@material-ui/icons/";
 
 const JumpControl = ({ appStore: { currentShip, currentWh } }) => {
   const { state, jumpLock, minMass, maxMass } = currentWh;
-  const { shipMass, modules } = currentShip;
+  const { shipMass, modules, name, baseMass } = currentShip;
   const renderedModules = modules.slice();
 
   const critMapName = {
@@ -57,7 +57,7 @@ const JumpControl = ({ appStore: { currentShip, currentWh } }) => {
                   color="primary"
                   size="large"
                   disabled={jumpLock}
-                  onClick={() => currentWh.shipJump(shipMass)}
+                  onClick={() => currentWh.shipJump(shipMass, baseMass, name)}
                 >
                   <PlayForWork />
                   Jump
