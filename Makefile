@@ -4,7 +4,7 @@ install:
 	npm install
 
 start:
-	npm run start
+	npm run startdev
 
 lint:
 	npm run lint
