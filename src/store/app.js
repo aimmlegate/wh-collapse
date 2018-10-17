@@ -22,6 +22,10 @@ export default class AppStore {
     }
   }
 
+  addShip(ship) {
+    this.ships.push(ship);
+  }
+
   get currentWh() {
     if (this.currentWhId) {
       return this.wormholes.filter(wh => wh.id === this.currentWhId)[0];
@@ -58,6 +62,7 @@ decorate(AppStore, {
   currentWh: computed,
   currentShip: computed,
   simulationStatus: computed,
+  addShip: action,
   setCurrentWh: action,
   setCurrentShip: action
 });
