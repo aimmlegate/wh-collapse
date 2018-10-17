@@ -13,13 +13,7 @@ import Button from "@material-ui/core/Button";
 import SelectMenu from "./SelectMenu.jsx";
 
 const SimulationDialog = ({ appStore, handleClose, handleStart, ...props }) => {
-  const {
-    wormholes,
-    ships,
-    simulationStatus,
-    currentWhId,
-    currentShipId
-  } = appStore;
+  const { wormholes, ships, currentWhId, currentShipId } = appStore;
   const optionsShips = ships.reduce(
     (acc, ship) => ({ ...acc, [ship.id]: ship.name }),
     {}
@@ -43,13 +37,6 @@ const SimulationDialog = ({ appStore, handleClose, handleStart, ...props }) => {
           <Typography variant="h6" color="inherit" style={{ flex: 1 }}>
             Simulation settings
           </Typography>
-          <Button
-            color="inherit"
-            onClick={handleStart}
-            disabled={simulationStatus === "NOT_READY"}
-          >
-            start
-          </Button>
         </Toolbar>
       </AppBar>
       <List>

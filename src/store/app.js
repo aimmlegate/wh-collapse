@@ -4,11 +4,9 @@ export default class AppStore {
   constructor(wormholes, ships) {
     this.wormholes = wormholes;
     this.ships = ships;
+    this.currentWhId = "default";
+    this.currentShipId = "default";
   }
-
-  currentWhId = null;
-
-  currentShipId = null;
 
   setCurrentWh(id) {
     if (this.wormholes.some(wh => wh.id === id)) {
@@ -24,6 +22,10 @@ export default class AppStore {
 
   addShip(ship) {
     this.ships.push(ship);
+  }
+
+  addWormhole(wh) {
+    this.wormholes.push(wh);
   }
 
   get currentWh() {
@@ -63,6 +65,7 @@ decorate(AppStore, {
   currentShip: computed,
   simulationStatus: computed,
   addShip: action,
+  addWormhole: action,
   setCurrentWh: action,
   setCurrentShip: action
 });

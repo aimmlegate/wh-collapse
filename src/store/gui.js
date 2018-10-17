@@ -9,6 +9,10 @@ export default class GuiState {
 
   addShipDialog = false;
 
+  editWhDialogStatus = false;
+
+  addWhDialog = false;
+
   openNewSimDialog() {
     this.simDialogStatus = true;
   }
@@ -32,6 +36,22 @@ export default class GuiState {
   closeAddShipDialog() {
     this.addShipDialog = false;
   }
+
+  openEditWhDialog() {
+    this.editWhDialogStatus = true;
+  }
+
+  closeEditWhDialog() {
+    this.editWhDialogStatus = false;
+  }
+
+  openAddWhDialog() {
+    this.addWhDialog = true;
+  }
+
+  closeAddWhDialog() {
+    this.addWhDialog = false;
+  }
 }
 
 decorate(GuiState, {
@@ -43,5 +63,11 @@ decorate(GuiState, {
   closeEditShipDialog: action,
   addShipDialog: observable,
   openAddShipDialog: action,
-  closeAddShipDialog: action
+  closeAddShipDialog: action,
+  editWhDialogStatus: observable,
+  addWhDialog: observable,
+  openAddWhDialog: action,
+  closeAddWhDialog: action,
+  openEditWhDialog: action,
+  closeEditWhDialog: action
 });

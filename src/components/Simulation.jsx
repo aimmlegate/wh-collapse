@@ -9,11 +9,11 @@ import WhProgress from "./WhProgress.jsx";
 import WhStatus from "./WhStatus.jsx";
 
 const Simulation = ({ appStore }) => {
-  const { simulationOn } = appStore;
+  const { simulationStatus } = appStore;
 
   return (
     <>
-      {simulationOn ? (
+      {simulationStatus === "READY" ? (
         <Grid container spacing={16}>
           <Grid item xs={12}>
             <WhStatus />
