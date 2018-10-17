@@ -3,8 +3,6 @@ import { observable, action, decorate } from "mobx";
 export default class GuiState {
   simulationOn = false;
 
-  simDialogStatus = false;
-
   editShipDialogStatus = false;
 
   addShipDialog = false;
@@ -12,14 +10,6 @@ export default class GuiState {
   editWhDialogStatus = false;
 
   addWhDialog = false;
-
-  openNewSimDialog() {
-    this.simDialogStatus = true;
-  }
-
-  closeNewSimDialog() {
-    this.simDialogStatus = false;
-  }
 
   openEditShipDialog() {
     this.editShipDialogStatus = true;
@@ -55,10 +45,7 @@ export default class GuiState {
 }
 
 decorate(GuiState, {
-  simDialogStatus: observable,
   editShipDialogStatus: observable,
-  openNewSimDialog: action,
-  closeNewSimDialog: action,
   openEditShipDialog: action,
   closeEditShipDialog: action,
   addShipDialog: observable,

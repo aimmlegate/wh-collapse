@@ -8,14 +8,9 @@ import { flowRight as compose } from "lodash";
 import Button from "@material-ui/core/Button";
 import EditShipsDialog from "./EditShipsDialog.jsx";
 import EditWhDialog from "./EditWhDialog.jsx";
-import SimulationDialog from "./SimulationDialog.jsx";
 
 const AppHeader = ({ guiStore }) => {
-  const {
-    editShipDialogStatus,
-    editWhDialogStatus,
-    simDialogStatus
-  } = guiStore;
+  const { editShipDialogStatus, editWhDialogStatus } = guiStore;
 
   return (
     <AppBar position="static">
@@ -29,11 +24,6 @@ const AppHeader = ({ guiStore }) => {
         open={editWhDialogStatus}
         handleClose={() => guiStore.closeEditWhDialog()}
       />
-      <SimulationDialog
-        fullScreen
-        open={simDialogStatus}
-        handleClose={() => guiStore.closeNewSimDialog()}
-      />
       <Toolbar>
         <Typography variant="h6" color="inherit" style={{ flex: 1 }}>
           Phayder WH-Collapse
@@ -43,9 +33,6 @@ const AppHeader = ({ guiStore }) => {
         </Button>
         <Button color="inherit" onClick={() => guiStore.openEditWhDialog()}>
           Wormholes
-        </Button>
-        <Button color="inherit" onClick={() => guiStore.openNewSimDialog()}>
-          Settings
         </Button>
       </Toolbar>
     </AppBar>

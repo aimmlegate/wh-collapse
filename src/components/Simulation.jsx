@@ -19,11 +19,11 @@ const Simulation = ({ appStore }) => {
           <Grid item xs={12}>
             <WhStatus />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item md={8} xs={12}>
             <JumpControl />
             <JumpHistory />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item md={3} xs={12}>
             <AppData />
           </Grid>
           <Grid item xs={12}>
